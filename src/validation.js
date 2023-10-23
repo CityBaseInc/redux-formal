@@ -17,6 +17,29 @@ dayjs.extend(isSameOrAfter);
 
 export let validatorFns = {};
 
+export const IS_PERCENTAGE = 'validator/IS_PERCENTAGE';
+export const IS_PERCENTAGE_ERROR = 'error/IS_PERCENTAGE';
+export const isPercentage = createValidator(IS_PERCENTAGE, IS_PERCENTAGE_ERROR);
+validatorFns[IS_PERCENTAGE] = (value, args, form) => {
+  if (value === '') {
+    return true;
+  }
+  const parts = value.split('.');
+  if (parts.length > 2) {
+    // Ensure there are 1 or 2 parts (integer and optional decimal)
+    return false;
+  }
+  const decimalPart = parts[1];
+  // If there's a decimal part, ensure it's 1 or 2 digits
+  if (decimalPart) {
+    if (decimalPart.length > 2 || isNaN(decimalPart)) {
+      return false;
+    }
+  }
+  const num = parseFloat(value);
+  return num >= 0 && num <= 100;
+};
+
 export const INCLUDED_IN = 'validator/INCLUDED_IN';
 export const INCLUDED_IN_ERROR = 'error/INCLUDED_IN';
 export const includedIn = createValidator(INCLUDED_IN, INCLUDED_IN_ERROR);

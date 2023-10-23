@@ -22,5 +22,6 @@ export {
   isValidMonth,
   includedIn,
   onlyExpirationDate,
+  isPercentage,
 } from './validation';
 export { createFormState } from './main';

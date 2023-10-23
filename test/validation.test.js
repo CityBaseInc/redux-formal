@@ -70,6 +70,7 @@ import {
   IS_PROBABLY_EMAIL_ERROR,
   IS_VALID_MONTH,
   IS_VALID_MONTH_ERROR,
+  IS_PERCENTAGE,
 } from '../src/validation';
 
 test('required validator produces correct validator object', (t) => {
@@ -1369,6 +1370,31 @@ testProp(
     t.true(validatorFns[HAS_SPECIAL_CHARACTER](`${stringA.join('')}`, [], {}));
   }
 );
+
+test('isPercentage accepts empty string', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE](''), true);
+});
+test('isPercentage accepts double digit decimals', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('23.52'), true);
+});
+test('isPercentage accepts whole numbers', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('5'), true);
+});
+test('isPercentage accepts tenths place values', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('1.0'), true);
+});
+test('isPercentage accepts hundredths place values', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('1.23'), true);
+});
+test('isPercentage does not accept alphabetical characters', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('abc'), false);
+});
+test('isPercentage does not accept beyond hundredths place values', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('1.238'), false);
+});
+test('isPercentage does not accept special characters', (t) => {
+  t.is(validatorFns[IS_PERCENTAGE]('$1.00'), false);
+});
 
 test('isProbablyEmail validator produces correct validator object', (t) => {
   t.is(isProbablyEmail.error, IS_PROBABLY_EMAIL_ERROR);

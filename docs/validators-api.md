@@ -495,3 +495,27 @@ Arguments:
 | "pepsi"               | ["coca-cola", "pepsi"] | True      |
 | "rc-cola              | ["coca-cola", "pepsi"] | False     |
 
+## isPercentage
+
+isPercentage validates that a given string is a decimal OR whole number between 0 and 100. If a decimal is included, only tenths and hundredths place values are allowed.
+
+```jsx
+import { isPercentage } from "redux-freeform";
+
+const formConfig = {
+  service_fee: {
+    validators: [isPercentage()]
+  }
+};
+```
+
+| Value                 | Validates |
+| --------------------- | --------- |
+| ""                    | True      |
+| "23.52"               | True      |
+| "1"                   | True      |
+| "1.0"                 | True      |
+| "1.23"                | True      |
+| "1.238"               | False     |
+| "abc"                 | False     |
+| "$1.00"               | False     |
