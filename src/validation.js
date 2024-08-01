@@ -347,6 +347,28 @@ validatorFns[MATCHES_REGEX] = (value, args, form) => {
   return new RegExp(args[0]).test(value); // new RexExp never throws an error, no matter the input
 };
 
+export const IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER =
+  'validator/IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER';
+export const IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR =
+  'validator/IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR';
+export const isAmericanOrCanadianRoutingNumber = createValidator(
+  IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER,
+  IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR
+);
+validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER] = (value, args, form) => {
+  if (value === '') {
+    return true;
+  } else if (value.length === 8) {
+    const regExp = /^\d{8}$/;
+    return regExp.test(value);
+  } else if (value.length === 9) {
+    const regExp = /^\d{9}$/;
+    return validatorFns[IS_ROUTING_NUMBER](value, args, form) && regExp.test(value);
+  } else {
+    return false;
+  }
+};
+
 // based on http://www.brainjar.com/js/validation/
 export const IS_ROUTING_NUMBER = 'validator/IS_ROUTING_NUMBER';
 export const IS_ROUTING_NUMBER_ERROR = 'error/IS_ROUTING_NUMBER';

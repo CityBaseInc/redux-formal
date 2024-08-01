@@ -42,6 +42,9 @@ import {
   isRoutingNumber,
   IS_ROUTING_NUMBER,
   IS_ROUTING_NUMBER_ERROR,
+  isAmericanOrCanadianRoutingNumber,
+  IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER,
+  IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR,
   validateWhen,
   VALIDATE_WHEN,
   VALIDATE_WHEN_ERROR,
@@ -156,6 +159,17 @@ test('isRoutingNumber validator produces correct validator object', () => {
     type: IS_ROUTING_NUMBER,
     args: [],
     error: IS_ROUTING_NUMBER_ERROR,
+  });
+});
+
+test('isAmericanOrCanadianRoutingNumber validator produces correct validator object', () => {
+  expect(isAmericanOrCanadianRoutingNumber.error).toBe(
+    IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR
+  );
+  expect(isAmericanOrCanadianRoutingNumber()).toEqual({
+    type: IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER,
+    args: [],
+    error: IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER_ERROR,
   });
 });
 
@@ -951,6 +965,77 @@ test.prop(
 
 test('isRoutingNumber validated on empty string', () => {
   expect(validatorFns[IS_ROUTING_NUMBER]('', [], {})).toBe(true);
+});
+
+/**
+ * isAmericanOrCanadianRoutingNumber Validator
+ */
+test.prop(
+  'isAmericanOrCanadianRoutingNumber validates 8 digit Canadian routing numbers',
+  [
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+  ],
+  (...first8Digits) => {
+    const validRoutingNumber = first8Digits.join('');
+    expect(
+      validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER](
+        validRoutingNumber,
+        [],
+        {}
+      )
+    ).toBe(true);
+  }
+);
+
+test.prop(
+  'isAmericanOrCanadianRoutingNumber validates 9 digit U.S. routing numbers with a valid checksum',
+  [
+    fc.integer(1, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+    fc.integer(0, 9),
+  ],
+  (...first8Digits) => {
+    const validRoutingNumber = `${first8Digits.join('')}${calcCheckSum(
+      ...first8Digits
+    )}`;
+    expect(
+      validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER](
+        validRoutingNumber,
+        [],
+        {}
+      )
+    ).toBe(true);
+  }
+);
+
+test('isAmericanOrCanadianRoutingNumber does not validate 9 digit U.S. routing numbers without a valid checksum', () => {
+  expect(
+    validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER]('123456789', [], {})
+  ).toBe(false);
+});
+
+test('isAmericanOrCanadianRoutingNumber does not validate strings of lengths less than 8', () => {
+  expect(
+    validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER]('1234567', [], {})
+  ).toBe(false);
+});
+
+test('isAmericanOrCanadianRoutingNumber does not validate strings of lengths greater than 9', () => {
+  expect(
+    validatorFns[IS_AMERICAN_OR_CANADIAN_ROUTING_NUMBER]('1234567891', [], {})
+  ).toBe(false);
 });
 
 test('runValidator returns null when validator accepts', () => {
