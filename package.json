@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "acorn": "^8.8.2",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.12",
     "immer": "^9.0.21"
   },
   "devDependencies": {
