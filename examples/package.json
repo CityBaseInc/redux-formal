@@ -9,8 +9,8 @@
     "build": "parcel build --no-scope-hoist --no-cache index.html --dist-dir dist/"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-freeform": "^5.7.0",
