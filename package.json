@@ -18,7 +18,7 @@
     "coverage": "jest --coverage --coverageReporters=lcov --coverageReporters=text --coveragePerFile=true"
   },
   "dependencies": {
-    "acorn": "^8.8.2",
+    "acorn": "^8.12.1",
     "dayjs": "^1.11.7",
     "immer": "^9.0.21"
   },
