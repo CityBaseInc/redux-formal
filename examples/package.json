@@ -13,7 +13,7 @@
     "react-dom": "^18.2.0",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
-    "redux-freeform": "^5.7.0",
+    "redux-freeform": "^5.9.0",
     "validation": "^0.0.1"
   },
   "devDependencies": {
