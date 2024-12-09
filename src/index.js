@@ -8,6 +8,7 @@ export {
   hasLength,
   matchesRegex,
   isRoutingNumber,
+  isAmericanOrCanadianRoutingNumber,
   validateWhen,
   validateSum,
   numberGreaterThan,

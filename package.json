@@ -1,6 +1,6 @@
 {
   "name": "redux-freeform",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "A small Redux form library that supports purely functional apps, without magic",
   "main": "dist/redux-freeform.cjs.js",
   "module": "dist/redux-freeform.esm.js",
